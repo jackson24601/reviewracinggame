@@ -44,9 +44,68 @@
   const RY_IN = 78;
   const START_ANGLE = Math.PI / 2;
   const LAP = Math.PI * 2;
-  const BASE_SPEED = 0.042;
-  const SPEED_PER_POINT = 0.078;
-  const MAX_SPEED = 1.85;
+  const BASE_SPEED = 0.038;
+  const SPEED_PER_POINT = 0.055;
+  const MAX_SPEED = 1.35;
+  const HORSE_PX = 2;
+  const HORSE_FRAMES = [
+    [
+      ".........CC...........",
+      "........CEFC..........",
+      "........FJ...HHHH.....",
+      "MM.....JJP.HHHHHHH....",
+      "MM.....JP.HHHHHHHH....",
+      ".M.....P.HHHHHHHHH....",
+      ".TT.....HHHHHHHHHH....",
+      "..T....HHHHDDHHHHH....",
+      ".......HHH..HH..HH....",
+      ".......HH...HH..HH....",
+      ".......H....H....H....",
+      ".......K....K....K....",
+    ],
+    [
+      ".........CC...........",
+      "........CEFC..........",
+      "........FJ...HHHH.....",
+      "MM.....JJP.HHHHHHH....",
+      ".M.....JP.HHHHHHHH....",
+      ".......P.HHHHHHHHH....",
+      ".T......HHHHHHHHHH....",
+      ".TT....HHHHDDHHHHH....",
+      ".......HH..HH.HH......",
+      ".......H...H...H......",
+      "......H...H.....H.....",
+      "......K...K.....K.....",
+    ],
+    [
+      ".........CC...........",
+      "........CEFC..........",
+      "........FJ...HHHH.....",
+      "MMM....JJP.HHHHHHH....",
+      ".M.....JP.HHHHHHHH....",
+      ".......P.HHHHHHHHH....",
+      "..T.....HHHHHHHHHH....",
+      "..TT...HHHHDDHHHHH....",
+      ".......HHH.HH..HH.....",
+      "......HH...HH..HH.....",
+      "......H....H....H.....",
+      "......K....K....K.....",
+    ],
+    [
+      ".........CC...........",
+      "........CEFC..........",
+      "........FJ...HHHH.....",
+      "MM.....JJP.HHHHHHH....",
+      "MM.....JP.HHHHHHHH....",
+      ".M.....P.HHHHHHHHH....",
+      "TT......HHHHHHHHHH....",
+      ".T.....HHHHDDHHHHH....",
+      ".......HH...HH.HH.....",
+      "........H...H...H.....",
+      ".........H.H...H......",
+      ".........K.K...K......",
+    ],
+  ];
 
   const FONT = {
     " ": ["00000", "00000", "00000", "00000", "00000", "00000", "00000"],
@@ -202,24 +261,9 @@
     }
 
     bgx.fillStyle = VGA.yellow;
-    bgx.fillRect(560, 10, 18, 18);
+    bgx.fillRect(572, 8, 16, 16);
     bgx.fillStyle = VGA.brown;
-    bgx.fillRect(566, 16, 6, 6);
-
-    bgx.fillStyle = VGA.green;
-    bgx.beginPath();
-    bgx.moveTo(0, 78);
-    bgx.lineTo(80, 52);
-    bgx.lineTo(150, 78);
-    bgx.lineTo(230, 48);
-    bgx.lineTo(320, 80);
-    bgx.lineTo(410, 46);
-    bgx.lineTo(500, 78);
-    bgx.lineTo(580, 50);
-    bgx.lineTo(640, 80);
-    bgx.lineTo(640, 120);
-    bgx.lineTo(0, 120);
-    bgx.fill();
+    bgx.fillRect(577, 13, 6, 6);
 
     bgx.fillStyle = VGA.dark;
     bgx.fillRect(84, 8, 472, 42);
@@ -322,11 +366,10 @@
     bgx.fill();
 
     bgx.fillStyle = VGA.brown;
-    bgx.fillRect(CX + 18, CY - 28, 6, 34);
+    bgx.fillRect(CX + 58, CY + 10, 5, 22);
     bgx.fillStyle = VGA.yellow;
-    bgx.fillRect(CX + 24, CY - 26, 36, 16);
-    bgx.fillStyle = VGA.red;
-    drawText(bgx, "RACE", CX + 28, CY - 22, VGA.red, 1, "left");
+    bgx.fillRect(CX + 63, CY + 8, 40, 14);
+    drawText(bgx, "DERBY", CX + 67, CY + 11, VGA.red, 1, "left");
 
     frx.clearRect(0, 0, W, H);
     frx.strokeStyle = VGA.white;
@@ -342,78 +385,69 @@
     }
   }
 
-  function drawHorse(target, frame, body, dark) {
-    const p = (x, y, w, h, c) => {
-      target.fillStyle = c;
-      target.fillRect(x, y, w, h);
-    };
-    const f = ((frame % 4) + 4) % 4;
-    const legs = [
-      [[4, 11, 2, 5], [8, 12, 2, 3], [14, 11, 2, 5], [18, 12, 2, 3]],
-      [[5, 10, 2, 4], [8, 11, 2, 4], [15, 10, 2, 4], [18, 11, 2, 4]],
-      [[6, 11, 2, 5], [3, 12, 2, 3], [16, 11, 2, 5], [13, 12, 2, 3]],
-      [[3, 10, 2, 4], [7, 11, 2, 5], [17, 11, 2, 4], [14, 12, 2, 3]],
-    ][f];
-    const tails = [
-      [[0, 7, 3, 2], [0, 9, 2, 3]],
-      [[1, 6, 3, 2], [0, 8, 2, 3]],
-      [[0, 6, 3, 2], [1, 8, 2, 4]],
-      [[1, 7, 3, 2], [0, 9, 3, 2]],
-    ][f];
-
-    p(5, 14, 14, 2, "rgba(0,0,0,0.45)");
-    for (const [x, y, w, h] of tails) {
-      p(x, y, w, h, VGA.black);
-      p(x, y, 1, h, dark);
+  function horsePixelColor(ch, body, dark) {
+    switch (ch) {
+      case "H":
+        return body;
+      case "D":
+        return dark;
+      case "J":
+        return body;
+      case "P":
+        return VGA.white;
+      case "C":
+        return body === VGA.white ? VGA.bred : VGA.white;
+      case "E":
+        return VGA.white;
+      case "F":
+        return VGA.brown;
+      case "M":
+      case "T":
+      case "K":
+        return VGA.black;
+      default:
+        return null;
     }
-    for (const [x, y, w, h] of legs) {
-      p(x, y, w, h, dark);
-      p(x, y, 1, h - 1, body);
-      p(x, y + h - 1, w, 1, VGA.black);
-    }
-    p(5, 6, 13, 6, body);
-    p(5, 10, 13, 2, dark);
-    p(6, 6, 11, 1, VGA.white);
-    p(4, 7, 3, 4, body);
-    p(15, 3, 5, 7, body);
-    p(16, 4, 2, 5, dark);
-    p(18, 2, 7, 4, body);
-    p(23, 3, 3, 2, body);
-    p(24, 4, 1, 1, VGA.black);
-    p(20, 3, 1, 1, VGA.white);
-    p(21, 3, 1, 1, VGA.black);
-    p(22, 2, 1, 3, VGA.white);
-    p(19, 0, 2, 3, body);
-    p(19, 0, 1, 2, dark);
-    p(16, 1, 3, 5, VGA.black);
-    p(17, 2, 1, 4, dark);
-
-    p(9, 2, 6, 5, body);
-    p(10, 3, 5, 3, VGA.white);
-    p(10, 3, 4, 3, body);
-    p(10, 6, 4, 2, VGA.white);
-    p(10, 1, 3, 3, VGA.brown);
-    p(11, 2, 1, 1, VGA.black);
-    p(9, 0, 5, 2, VGA.white);
-    p(10, 0, 3, 2, body);
-    p(15, 4, 4, 1, VGA.brown);
-    p(18, 4, 3, 1, VGA.black);
   }
 
-  const horseSprite = document.createElement("canvas");
-  horseSprite.width = 28;
-  horseSprite.height = 18;
-  const hsx = horseSprite.getContext("2d");
-
   function blitHorse(x, y, angle, frame, body, dark) {
-    hsx.clearRect(0, 0, 28, 18);
-    drawHorse(hsx, frame, body, dark);
-    ctx.save();
-    ctx.translate(Math.round(x), Math.round(y));
-    ctx.rotate(angle);
-    ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(horseSprite, -12, -14);
-    ctx.restore();
+    const rows = HORSE_FRAMES[((frame % 4) + 4) % 4];
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    const ox = 12;
+    const oy = 10;
+    const s = HORSE_PX;
+    ctx.fillStyle = "rgba(0,0,0,0.35)";
+    ctx.fillRect(Math.round(x - 10), Math.round(y - 1), 20, 3);
+
+    const plot = (sx, sy, color) => {
+      const dx = sx - ox;
+      const dy = sy - oy;
+      const rx = Math.round(x + (dx * cos - dy * sin) * s);
+      const ry = Math.round(y + (dx * sin + dy * cos) * s);
+      ctx.fillStyle = color;
+      ctx.fillRect(rx, ry, s, s);
+    };
+
+    for (let sy = 0; sy < rows.length; sy++) {
+      for (let sx = 0; sx < rows[sy].length; sx++) {
+        if (rows[sy][sx] === ".") continue;
+        for (let oy2 = -1; oy2 <= 1; oy2++) {
+          for (let ox2 = -1; ox2 <= 1; ox2++) {
+            if (ox2 === 0 && oy2 === 0) continue;
+            plot(sx + ox2, sy + oy2, VGA.black);
+          }
+        }
+      }
+    }
+    for (let sy = 0; sy < rows.length; sy++) {
+      for (let sx = 0; sx < rows[sy].length; sx++) {
+        const color = horsePixelColor(rows[sy][sx], body, dark);
+        if (!color) continue;
+        plot(sx, sy, color);
+      }
+    }
+    plot(10, 1, VGA.black);
   }
 
   function ensureAudio() {
@@ -453,22 +487,21 @@
     const horse = horses[index];
     if (!horse) return;
     horse.boost += 1;
-    horse.flash = 0.18;
-    const pad = controlsEl.children[index];
-    if (pad) {
-      pad.classList.add("flash");
-      setTimeout(() => pad.classList.remove("flash"), 120);
+    horse.flash = 0.22;
+    if (horse.padEl) {
+      horse.padEl.classList.add("flash");
+      setTimeout(() => horse.padEl.classList.remove("flash"), 140);
     }
     updatePads();
     beep(220 + index * 40, 0.07);
   }
 
   function updatePads() {
-    horses.forEach((horse, i) => {
-      const pad = controlsEl.children[i];
-      if (!pad) return;
-      const stats = pad.querySelector(".team-stats");
-      stats.innerHTML = `<span class="laps">LAPS ${horse.laps}</span><br>AWARDED ${horse.boost}`;
+    horses.forEach((horse) => {
+      if (!horse.statsEl) return;
+      horse.statsEl.innerHTML =
+        `<span class="laps">LAPS ${horse.laps}</span><br>` +
+        `<span class="boost">AWARDED ${horse.boost}</span>`;
     });
   }
 
@@ -507,9 +540,19 @@
         <div class="team-stats"></div>
       `;
       pad.querySelector(".team-plus").addEventListener("click", () => award(i));
+      pad.querySelector(".team-plus").addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+        if (horse.boost > 0) {
+          horse.boost -= 1;
+          updatePads();
+          beep(160, 0.05);
+        }
+      });
       pad.querySelector(".team-plus").addEventListener("pointerdown", (e) => {
         if (e.pointerType === "touch") e.preventDefault();
       });
+      horse.padEl = pad;
+      horse.statsEl = pad.querySelector(".team-stats");
       controlsEl.appendChild(pad);
     });
     updatePads();
@@ -524,14 +567,23 @@
     beep(392, 0.18);
   }
 
+  function horseWorld(horse) {
+    const angle = START_ANGLE + horse.distance;
+    const rx = RX_IN + (RX_OUT - RX_IN) * horse.lane;
+    const ry = RY_IN + (RY_OUT - RY_IN) * horse.lane;
+    const pos = ellipsePoint(rx, ry, angle);
+    return { angle, rx, ry, pos, heading: tangent(rx, ry, angle) };
+  }
+
   function completeLap(horse, index) {
     horse.laps += 1;
+    const { pos } = horseWorld(horse);
     pops.push({
       text: "+1 LAP",
       color: horse.team.color,
-      x: CX,
-      y: CY - 10,
-      life: 1.1,
+      x: pos.x,
+      y: pos.y - 18,
+      life: 1.2,
       team: index,
     });
     updatePads();
@@ -552,23 +604,35 @@
       drawText(ctx, `LEAD ${lead.team.name}  LAP ${lead.laps}`, W - 6, 3, lead.team.color, 1, "right");
     }
 
-    const boardX = CX - 52;
-    const boardY = CY - 46;
-    const rows = horses.length;
-    const bh = 12 + rows * 9;
+    const cols = horses.length > 5 ? 2 : 1;
+    const rowsPerCol = Math.ceil(horses.length / cols);
+    const boardW = cols === 1 ? 118 : 220;
+    const boardX = CX - Math.floor(boardW / 2);
+    const boardY = CY - 50;
+    const bh = 14 + rowsPerCol * 9;
     ctx.fillStyle = VGA.black;
-    ctx.fillRect(boardX - 2, boardY - 2, 108, bh + 4);
+    ctx.fillRect(boardX - 2, boardY - 2, boardW + 4, bh + 4);
     ctx.fillStyle = VGA.brown;
-    ctx.fillRect(boardX, boardY, 104, bh);
+    ctx.fillRect(boardX, boardY, boardW, bh);
     ctx.fillStyle = VGA.yellow;
-    ctx.fillRect(boardX + 2, boardY + 2, 100, 9);
-    drawText(ctx, "LAPS", boardX + 52, boardY + 3, VGA.red, 1, "center");
+    ctx.fillRect(boardX + 2, boardY + 2, boardW - 4, 9);
+    drawText(ctx, "LAPS / PTS", boardX + Math.floor(boardW / 2), boardY + 3, VGA.red, 1, "center");
     order.forEach((row, place) => {
       const horse = horses[row.i];
-      const y = boardY + 13 + place * 9;
-      const label = `${place + 1} ${horse.team.name}`;
-      drawText(ctx, label.slice(0, 8), boardX + 4, y, horse.team.color, 1, "left");
-      drawText(ctx, String(horse.laps).padStart(2, "0"), boardX + 100, y, VGA.white, 1, "right");
+      const col = Math.floor(place / rowsPerCol);
+      const rowi = place % rowsPerCol;
+      const x = boardX + 4 + col * 110;
+      const y = boardY + 14 + rowi * 9;
+      drawText(ctx, `${place + 1} ${horse.team.name}`.slice(0, 8), x, y, horse.team.color, 1, "left");
+      drawText(
+        ctx,
+        `${String(horse.laps).padStart(2, "0")}/${String(horse.boost).padStart(2, "0")}`,
+        x + 104,
+        y,
+        VGA.white,
+        1,
+        "right"
+      );
     });
   }
 
@@ -628,11 +692,8 @@
     drawHud();
 
     const sprites = horses.map((horse) => {
-      const angle = START_ANGLE + horse.distance;
-      const rx = RX_IN + (RX_OUT - RX_IN) * horse.lane;
-      const ry = RY_IN + (RY_OUT - RY_IN) * horse.lane;
-      const pos = ellipsePoint(rx, ry, angle);
-      return { horse, angle, pos, heading: tangent(rx, ry, angle) };
+      const world = horseWorld(horse);
+      return { horse, angle: world.angle, pos: world.pos, heading: world.heading };
     });
     sprites.sort((a, b) => a.pos.y - b.pos.y);
 
@@ -641,8 +702,6 @@
       const body = s.horse.flash > 0 ? VGA.white : s.horse.team.color;
       blitHorse(s.pos.x, s.pos.y, s.heading, frame, body, s.horse.team.dark);
     }
-
-    ctx.drawImage(frontRail, 0, 0);
 
     for (const pop of pops) {
       drawText(ctx, pop.text, pop.x, pop.y, pop.color, 2, "center");

@@ -10,7 +10,7 @@ Open `index.html` in a browser (Chrome, Edge, Firefox, or Safari). For a project
 2. The track appears and a **3-2-1-GO** countdown starts right away.
 3. Every team has a different color horse and jockey.
 4. Horses crawl at first. When a team earns a review point, press that color's **+** button (or keys **1-9** and **0** for team 10).
-5. Each awarded point makes that horse a little faster.
+5. Each awarded point makes that horse a little faster. Right-click a plus button if you tapped the wrong team.
 6. Each time a horse finishes a lap, that team scores **+1 lap**. They keep racing and can score again on the next lap.
 
 Use **NEW RACE** to pick a different number of teams.
