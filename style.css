@@ -1,0 +1,322 @@
+:root {
+  --vga-black: #000000;
+  --vga-blue: #0000aa;
+  --vga-green: #00aa00;
+  --vga-cyan: #00aaaa;
+  --vga-red: #aa0000;
+  --vga-magenta: #aa00aa;
+  --vga-brown: #aa5500;
+  --vga-light: #aaaaaa;
+  --vga-dark: #555555;
+  --vga-bblue: #5555ff;
+  --vga-bgreen: #55ff55;
+  --vga-bcyan: #55ffff;
+  --vga-bred: #ff5555;
+  --vga-bmagenta: #ff55ff;
+  --vga-yellow: #ffff55;
+  --vga-white: #ffffff;
+  --vga-navy: #000055;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  background: var(--vga-black);
+  color: var(--vga-white);
+  font-family: "Courier New", Courier, ui-monospace, monospace;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+#app,
+.screen {
+  height: 100%;
+  width: 100%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#setup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #000055 0 8px,
+      #000044 8px 16px
+    );
+}
+
+.dos-window {
+  width: min(640px, 94vw);
+  background: var(--vga-light);
+  color: var(--vga-black);
+  border: 4px solid var(--vga-white);
+  box-shadow:
+    0 0 0 4px var(--vga-dark),
+    8px 8px 0 var(--vga-black);
+}
+
+.dos-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--vga-blue);
+  color: var(--vga-white);
+  padding: 6px 8px;
+  font-size: 14px;
+}
+
+.dos-icon {
+  color: var(--vga-yellow);
+}
+
+.dos-spacer {
+  flex: 1;
+}
+
+.dos-win-btn {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  line-height: 16px;
+  text-align: center;
+  background: var(--vga-light);
+  color: var(--vga-black);
+  border-top: 2px solid var(--vga-white);
+  border-left: 2px solid var(--vga-white);
+  border-right: 2px solid var(--vga-dark);
+  border-bottom: 2px solid var(--vga-dark);
+  font-size: 12px;
+}
+
+.dos-body {
+  padding: 22px 18px 26px;
+  text-align: center;
+  background: var(--vga-light);
+}
+
+.banner {
+  font-size: clamp(20px, 4vw, 32px);
+  color: var(--vga-red);
+  text-shadow: 2px 2px 0 var(--vga-white);
+}
+
+.sub {
+  margin-top: 6px;
+  color: var(--vga-blue);
+  font-size: 14px;
+}
+
+.prompt {
+  margin: 22px 0 14px;
+  color: var(--vga-black);
+  font-size: 18px;
+}
+
+.count-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.count-btn {
+  min-height: 56px;
+  font: inherit;
+  font-size: 22px;
+  color: var(--vga-yellow);
+  background: var(--vga-blue);
+  border-top: 3px solid var(--vga-bcyan);
+  border-left: 3px solid var(--vga-bcyan);
+  border-right: 3px solid var(--vga-navy);
+  border-bottom: 3px solid var(--vga-navy);
+  cursor: pointer;
+}
+
+.count-btn:hover,
+.count-btn:focus {
+  background: var(--vga-bblue);
+  color: var(--vga-white);
+}
+
+.count-btn:active {
+  border-top-color: var(--vga-navy);
+  border-left-color: var(--vga-navy);
+  border-right-color: var(--vga-bcyan);
+  border-bottom-color: var(--vga-bcyan);
+}
+
+.hint {
+  margin-top: 22px;
+  color: var(--vga-dark);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+#race {
+  display: flex;
+  flex-direction: column;
+  background: var(--vga-black);
+}
+
+#stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: #000000;
+}
+
+#game {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  background: #000055;
+}
+
+#scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0 2px,
+    rgba(0, 0, 0, 0.18) 2px 4px
+  );
+  mix-blend-mode: multiply;
+}
+
+#hud-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--vga-dark);
+  border-top: 3px solid var(--vga-light);
+  border-bottom: 3px solid var(--vga-black);
+}
+
+.vga-btn {
+  font: inherit;
+  font-size: 12px;
+  padding: 6px 10px;
+  color: var(--vga-black);
+  background: var(--vga-light);
+  border-top: 3px solid var(--vga-white);
+  border-left: 3px solid var(--vga-white);
+  border-right: 3px solid var(--vga-black);
+  border-bottom: 3px solid var(--vga-black);
+  cursor: pointer;
+}
+
+.vga-btn:active {
+  border-top-color: var(--vga-black);
+  border-left-color: var(--vga-black);
+  border-right-color: var(--vga-white);
+  border-bottom-color: var(--vga-white);
+}
+
+#kbd-hint {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--vga-yellow);
+}
+
+#controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 8px 12px;
+  background: #000000;
+}
+
+.team-pad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 86px;
+  flex: 1 1 86px;
+  max-width: 140px;
+  padding: 6px;
+  background: var(--vga-dark);
+  border-top: 3px solid var(--vga-light);
+  border-left: 3px solid var(--vga-light);
+  border-right: 3px solid var(--vga-black);
+  border-bottom: 3px solid var(--vga-black);
+}
+
+.team-name {
+  font-size: 12px;
+  margin-bottom: 4px;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.team-plus {
+  width: 100%;
+  min-height: 48px;
+  font: inherit;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--vga-black);
+  cursor: pointer;
+  border-top: 3px solid var(--vga-white);
+  border-left: 3px solid var(--vga-white);
+  border-right: 3px solid var(--vga-black);
+  border-bottom: 3px solid var(--vga-black);
+}
+
+.team-plus:active,
+.team-pad.flash .team-plus {
+  filter: brightness(1.25);
+  transform: translate(1px, 1px);
+}
+
+.team-stats {
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 1.35;
+  text-align: center;
+  color: var(--vga-white);
+}
+
+.team-stats .laps {
+  color: var(--vga-yellow);
+}
+
+@media (max-width: 700px) {
+  .count-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  #kbd-hint {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .team-pad {
+    min-width: 72px;
+  }
+}

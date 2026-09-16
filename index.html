@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>REVIEW RACE</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <div id="app">
+    <section id="setup" class="screen">
+      <div class="dos-window">
+        <header class="dos-titlebar">
+          <span class="dos-icon">&#x25A0;</span>
+          <span>REVIEW RACE.EXE</span>
+          <span class="dos-spacer"></span>
+          <span class="dos-win-btn">_</span>
+          <span class="dos-win-btn">X</span>
+        </header>
+        <div class="dos-body">
+          <p class="banner">CLASSROOM HORSE DERBY</p>
+          <p class="sub">VGA EDITION &mdash; REVIEW ACTIVITY</p>
+          <p class="prompt">HOW MANY TEAMS?</p>
+          <div id="count-buttons" class="count-grid"></div>
+          <p class="hint">
+            EACH TEAM GETS A COLOR HORSE.<br>
+            TAP + TO AWARD A POINT AND SPEED THEM UP.<br>
+            EACH LAP AROUND THE TRACK SCORES +1.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="race" class="screen hidden">
+      <div id="stage">
+        <canvas id="game" width="640" height="400" aria-label="Racing track"></canvas>
+        <div id="scanlines"></div>
+      </div>
+      <div id="hud-bar">
+        <button type="button" id="new-race" class="vga-btn">NEW RACE</button>
+        <button type="button" id="fullscreen" class="vga-btn">FULL SCREEN</button>
+        <button type="button" id="mute" class="vga-btn">SOUND: ON</button>
+        <p id="kbd-hint">KEYS 1-9 AND 0 AWARD POINTS</p>
+      </div>
+      <div id="controls"></div>
+    </section>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
