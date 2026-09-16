@@ -518,7 +518,7 @@
     const n = count;
     for (let i = 0; i < n; i++) {
       const u = (i + 0.5) / n;
-      const lane = 0.16 + 0.68 * u;
+      const lane = 0.12 + 0.76 * u;
       horses.push({
         team: TEAMS[i],
         lane,
