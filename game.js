@@ -42,7 +42,7 @@
   const RY_OUT = 148;
   const RX_IN = 168;
   const RY_IN = 78;
-  const START_ANGLE = Math.PI / 2;
+  const START_ANGLE = 0;
   const LAP = Math.PI * 2;
   const BASE_SPEED = 0.038;
   const SPEED_PER_POINT = 0.055;
@@ -358,18 +358,18 @@
 
     bgx.fillStyle = VGA.bcyan;
     bgx.beginPath();
-    bgx.ellipse(CX - 48, CY + 8, 28, 12, 0, 0, Math.PI * 2);
+    bgx.ellipse(CX - 70, CY + 28, 26, 11, 0, 0, Math.PI * 2);
     bgx.fill();
     bgx.fillStyle = VGA.cyan;
     bgx.beginPath();
-    bgx.ellipse(CX - 48, CY + 10, 22, 8, 0, 0, Math.PI * 2);
+    bgx.ellipse(CX - 70, CY + 30, 20, 7, 0, 0, Math.PI * 2);
     bgx.fill();
 
     bgx.fillStyle = VGA.brown;
-    bgx.fillRect(CX + 58, CY + 10, 5, 22);
+    bgx.fillRect(CX + 62, CY + 22, 5, 22);
     bgx.fillStyle = VGA.yellow;
-    bgx.fillRect(CX + 63, CY + 8, 40, 14);
-    drawText(bgx, "DERBY", CX + 67, CY + 11, VGA.red, 1, "left");
+    bgx.fillRect(CX + 67, CY + 20, 40, 14);
+    drawText(bgx, "DERBY", CX + 71, CY + 23, VGA.red, 1, "left");
 
     frx.clearRect(0, 0, W, H);
     frx.strokeStyle = VGA.white;
@@ -640,12 +640,10 @@
     if (countdown <= 0 && running) return;
     const label = countdown > 0 ? String(countdown) : "GO!";
     const color = countdown > 0 ? VGA.yellow : VGA.bgreen;
-    ctx.fillStyle = "rgba(0,0,0,0.45)";
-    ctx.fillRect(220, 140, 200, 90);
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 3;
-    ctx.strokeRect(220, 140, 200, 90);
-    drawText(ctx, label, CX, 158, color, countdown > 0 ? 8 : 5, "center");
+    const scale = countdown > 0 ? 8 : 5;
+    const y = 50;
+    drawText(ctx, label, CX + 2, y + 2, VGA.black, scale, "center");
+    drawText(ctx, label, CX, y, color, scale, "center");
   }
 
   function step(dt) {
